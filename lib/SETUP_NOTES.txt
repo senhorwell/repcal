@@ -1,0 +1,45 @@
+# ── android/app/build.gradle ─────────────────────────────────────────────────
+# Adicione/ajuste estas linhas no seu build.gradle existente:
+#
+# android {
+#     compileSdkVersion 34
+#
+#     defaultConfig {
+#         minSdkVersion 21       ← mínimo exigido pelo ML Kit
+#         targetSdkVersion 34
+#     }
+# }
+
+# ── android/app/src/main/AndroidManifest.xml ─────────────────────────────────
+# Adicione dentro de <manifest>:
+#
+# <uses-permission android:name="android.permission.CAMERA"/>
+#
+# Adicione dentro de <application>:
+#
+# <!-- Necessário para o ML Kit funcionar offline -->
+# <meta-data
+#     android:name="com.google.mlkit.vision.DEPENDENCIES"
+#     android:value="pose"/>
+
+# ── ios/Runner/Info.plist ─────────────────────────────────────────────────────
+# Adicione:
+#
+# <key>NSCameraUsageDescription</key>
+# <string>O app precisa da câmera para rastrear seus movimentos e calcular calorias.</string>
+
+# ── Estrutura de arquivos gerados ─────────────────────────────────────────────
+#
+# lib/
+# ├── main.dart
+# ├── models/
+# │   └── models.dart          ← UserProfile + WorkoutState + CalibrationStatus
+# ├── services/
+# │   ├── pose_service.dart    ← PoseService (MediaPipe wrapper)
+# │   └── physics_engine.dart  ← PhysicsEngine + CalibrationHelper
+# ├── screens/
+# │   ├── calibration_screen.dart  ← input de peso/altura
+# │   └── tracking_screen.dart     ← câmera + loop principal
+# └── widgets/
+#     ├── skeleton_painter.dart    ← CustomPainter do esqueleto
+#     └── hud_overlay.dart         ← HUD com kcal, reps, força
